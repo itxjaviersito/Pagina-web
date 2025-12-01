@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Resultado del formulario</title>
+  <link rel="stylesheet" href="clase.css">
+  <style>
+    .result{max-width:760px;margin:36px auto;background:#fff;padding:20px;border-radius:10px;box-shadow:0 6px 20px rgba(15,23,42,0.06)}
+    .field{padding:8px 0;border-bottom:1px dashed rgba(15,23,42,0.06)}
+    .label{font-weight:700;color:#0f172a}
+    .value{color:#334155;margin-top:6px}
+    .empty{color:#94a3b8;font-style:italic}
+    .actions{margin-top:16px;text-align:right}
+    .btn{background:#2563eb;color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="result">
+      <h1 class="site-title">Datos recibidos</h1>
+      <div id="fields"></div>
+      <div class="actions">
+        <button id="editBtn" class="btn" type="button">Editar</button>
+        <a class="btn" href="clase.html" style="margin-left:8px;background:#6b7280">Volver</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Lee parámetros de la URL y los muestra de forma segura
+    function escapeHtml(s){
+      return String(s)
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#039;');
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const fields = [
+      {key:'name', label:'Nombre'},
+      {key:'email', label:'Correo'},
+      {key:'topic', label:'Asunto'},
+      {key:'message', label:'Mensaje'},
+      {key:'agree', label:'Aceptó contacto'}
+    ];
+
+    const container = document.getElementById('fields');
+    let any=false;
+    fields.forEach(f=>{
+      const div = document.createElement('div');
+      div.className='field';
+      const label = document.createElement('div');
+      label.className='label';
+      label.textContent = f.label;
+      const value = document.createElement('div');
+      value.className='value';
+      let v = params.get(f.key);
+      if(v===null || v===''){
+        value.innerHTML = '<span class="empty">(vacío)</span>';
+      } else {
+        any=true;
+        // Mostrar checkbox como Sí/No
+        if(f.key==='agree'){
+          value.textContent = (v==='on' || v==='true' || v==='1') ? 'Sí' : v;
+        } else {
+          value.innerHTML = escapeHtml(v).replace(/\n/g,'<br>');
+        }
+      }
+      div.appendChild(label);
+      div.appendChild(value);
+      container.appendChild(div);
+    });
+
+    if(!any){
+      // Si la URL contiene ?sent=1 mostramos un mensaje de confirmación (redirigido desde Formsubmit)
+      if(params.get('sent') === '1'){
+        container.innerHTML = '<p style="font-weight:700;color:#16a34a">Mensaje enviado correctamente. Revisa tu correo o la bandeja de destino.</p>';
+      } else {
+        container.innerHTML = '<p class="empty">No se recibieron datos — seguramente enviaste por POST o abriste esta página directamente.</p>';
+      }
+    }
+    // Botón para volver a editar: redirige a clase.html conservando la query string
+    const editBtn = document.getElementById('editBtn');
+    if(editBtn){
+      editBtn.addEventListener('click', ()=>{
+        const qs = window.location.search || '';
+        window.location.href = 'clase.html' + qs;
+      });
+    }
+  </script>
+</body>
+</html>

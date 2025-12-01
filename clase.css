@@ -1,0 +1,85 @@
+/* Reset y utilidades */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+    margin:0;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg,#f5f7fb 0%, #e9eef8 100%);
+    color:#1f2937;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+.page{
+    max-width:920px;
+    margin:36px auto;
+    padding:16px;
+}
+
+.site-title{
+    text-align:center;
+    margin:0 0 18px 0;
+    font-size:1.6rem;
+    color:#0f172a;
+}
+
+.card{
+    background:#ffffff;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 6px 20px rgba(15,23,42,0.06);
+    border:1px solid rgba(15,23,42,0.04);
+}
+
+.contact-form .row{margin-bottom:14px}
+.contact-form label{display:block;font-weight:600;margin-bottom:6px;font-size:0.95rem}
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form select,
+.contact-form textarea{
+    width:100%;
+    padding:10px 12px;
+    border-radius:8px;
+    border:1px solid rgba(15,23,42,0.12);
+    background:#fff;
+    font-size:0.97rem;
+    transition:box-shadow .12s, border-color .12s;
+}
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus{
+    outline:none;
+    border-color:#2563eb;
+    box-shadow:0 0 0 4px rgba(37,99,235,0.08);
+}
+
+.checkbox-row{display:flex;align-items:center}
+.checkbox{display:flex;align-items:center;gap:8px;font-weight:500}
+.checkbox input{width:18px;height:18px}
+
+.actions{display:flex;justify-content:flex-end}
+.btn{
+    background:#2563eb;
+    color:#fff;
+    border:none;
+    padding:10px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:700;
+    font-size:0.98rem;
+}
+.btn:hover{background:#1e4fd8}
+
+.required{color:#dc2626}
+
+.invalid{border-color:#dc2626 !important; box-shadow:0 0 0 4px rgba(220,38,38,0.06)}
+
+.site-footer{margin:18px auto 40px; text-align:center; color:#475569; font-size:0.9rem}
+
+@media (min-width:720px){
+    .contact-form .row{display:block}
+    .contact-form{display:block}
+}
+
+/* Clases antiguas adaptadas por compatibilidad */
+.texto-tu-mama{display:block}

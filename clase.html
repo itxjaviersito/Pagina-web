@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario - Clase José</title>
+    <link rel="shortcut icon" href="wfew.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="clase.css">
+</head>
+<body>
+    <main class="page">
+        <h1 class="site-title">Formulario de contacto</h1>
+
+        <section class="card">
+            <form class="contact-form" action="https://formsubmit.co/itx.javiersito@gmail.com" method="post">
+                <!-- Formsubmit: enviará el formulario a itx.javiersito@gmail.com
+                     Nota: es posible que debas verificar el correo la primera vez que recibas mensajes. -->
+                <input type="hidden" name="_next" value="submit.html?sent=1">
+                <input type="hidden" name="_subject" value="Nuevo mensaje desde formulario Clase">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_replyto" id="_replyto_hidden" value="">
+                <div class="row">
+                    <label for="name">Nombre completo <span class="required">*</span></label>
+                    <input id="name" name="name" type="text" placeholder="Tu nombre" required minlength="2">
+                </div>
+
+                <div class="row">
+                    <label for="email">Correo electrónico <span class="required">*</span></label>
+                    <input id="email" name="email" type="email" placeholder="ejemplo@correo.com" required>
+                </div>
+
+                <div class="row">
+                    <label for="topic">Asunto</label>
+                    <select id="topic" name="topic">
+                        <option value="general">General</option>
+                        <option value="pregunta">Pregunta</option>
+                        <option value="soporte">Soporte</option>
+                    </select>
+                </div>
+
+                <div class="row">
+                    <label for="message">Mensaje <span class="required">*</span></label>
+                    <textarea id="message" name="message" rows="5" placeholder="Escribe tu mensaje" required></textarea>
+                </div>
+
+                <div class="row checkbox-row">
+                    <label class="checkbox">
+                        <input type="checkbox" id="agree" name="agree" required>
+                        <span>Acepto que me contacten</span>
+                    </label>
+                </div>
+
+                <div class="row actions">
+                    <button type="submit" class="btn">Enviar</button>
+                </div>
+            </form>
+        </section>
+    </main>
+    <footer class="site-footer">&copy; <span id="year"></span> Clase José</footer>
+
+    <script>
+        // Coloca el año automáticamente
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mejoras simples de validación visual: añadir clase 'invalid' cuando el campo es inválido
+        (function(){
+            const form = document.querySelector('.contact-form');
+            form.addEventListener('submit', function(e){
+                // Establecer _replyto para que el servicio use el correo del remitente
+                const replyHidden = document.getElementById('_replyto_hidden');
+                const emailField = document.getElementById('email');
+                if(replyHidden && emailField){ replyHidden.value = emailField.value || ''; }
+
+                if(!form.checkValidity()){
+                    e.preventDefault();
+                    Array.from(form.elements).forEach(el => {
+                        if(el.willValidate && !el.checkValidity()) el.classList.add('invalid');
+                    });
+                    const firstInvalid = form.querySelector('.invalid');
+                    if(firstInvalid) firstInvalid.focus();
+                }
+            });
+            // remove invalid class on input
+            form.addEventListener('input', function(e){
+                if(e.target.classList.contains('invalid') && e.target.checkValidity()){
+                    e.target.classList.remove('invalid');
+                }
+            });
+        })();
+
+    // Rellenar el formulario con parámetros de la URL (para editar)
+    (function(){
+        const params = new URLSearchParams(window.location.search);
+        if(!params.toString()) return;
+        const setIf = (id, value) => {
+            const el = document.getElementById(id);
+            if(!el) return;
+            if(el.type === 'checkbox'){
+                if(value === 'on' || value === 'true' || value === '1') el.checked = true;
+            } else if(el.tagName.toLowerCase() === 'select' || el.tagName.toLowerCase() === 'input' || el.tagName.toLowerCase() === 'textarea'){
+                el.value = value;
+            }
+        };
+        ['name','email','topic','message','agree'].forEach(k => {
+            if(params.has(k)) setIf(k, params.get(k));
+        });
+        // Limpiar la query string para evitar que se muestre en la barra de direcciones
+        try{ history.replaceState(null,'',location.pathname); }catch(e){}
+    })();
+    </script>
+</body>
+</html>
