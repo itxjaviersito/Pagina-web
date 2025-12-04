@@ -1,4 +1,19 @@
 body {
 
-    background-color: black;
+    background-color: rgb(255, 255, 255);
+    
+}
+
+p {
+
+    color: blue;
+    
+}
+
+h1 {
+
+background-color: aqua;
+    border: 5px;
+    border-style: outset;
+    border-color: red;
 }
