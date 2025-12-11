@@ -8,15 +8,23 @@
     <link rel="icon" href="">
 </head>
 <body>
-    
-<form action="/HTML/prueba.html" method="get">
-    <label for="Name">Nombre de Usuario</label>
-    <input type="Name" required><br><br>
-    <label for="Pasword">Contraseña</label>
-    <input type="password" required><br>
-<input type="submit" value="Enviar">
-
-</form>
-
+<div class="formulario">
+    <h1>INICIO DE SESIÓN</h1>
+    <form action="/HTML/index.html" method="get">
+        <div class="username">
+            <input type="text" required>
+         <label>Nombre de ususario</label>
+        </div>
+        <div class="contraseña">
+            <input type="password" required>
+            <label>Contraseña</label>
+        </div>
+        <div class="recordar">¿Olvido su contraseña</div>
+        <input type="submit" value="INGRESAR">
+        <div class="Registrarse">
+            Te quieres <a href="#" registrar>registrar?</a>
+        </div>
+    </form>
+</div>
 </body>
-</html>
+</html> 
